@@ -69,6 +69,11 @@ namespace VerificaAssembly
         public string Descrcao { get { return "Pesquise por infromaçoes da DLL"; } }
         [HelpText(1, "Exemplo")]
         public string Exemplo { get { return $@"VerificaAssembly.exe /Acao:VersaoFramework /CaminhoDll:\\receitasrv006v\fwkSefaz_NET\BinV2\FwkNegocio.dll {Environment.NewLine}"; } }
+        [HelpText(3,"Parametros")]
+        public override string SwitchHelp
+        {
+            get { return base.SwitchHelp; }
+        }
 
         public override Dictionary<Func<bool>, string> GetParamExceptionDictionary()
         {
