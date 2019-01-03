@@ -5,6 +5,7 @@ using System.IO;
 using ConsoleCommon;
 using System.Collections.Generic;
 
+
 namespace VerificaAssembly
 {
     class Program
@@ -25,15 +26,17 @@ namespace VerificaAssembly
                     Environment.Exit(0);
                 }
 
+                parametros.Acao.ToList().ForEach(acao => {
+                    if (DicionarioAcao.ContainsKey(acao))
+                    {
+                        var acaoExec = DicionarioAcao[acao] as Action<Parametros>;
+                        acaoExec(parametros);
 
-                if (DicionarioAcao.ContainsKey(parametros.Acao))
-                {
-                    var acao =  DicionarioAcao[parametros.Acao] as Action<Parametros>;
-                    acao(parametros);
-
-                }
-                else
-                    Console.WriteLine("Nenhuma ação encontrada");
+                    }
+                    else
+                        Console.WriteLine($"Ação ({acao.ToString()})  não encontrada");
+                });
+               
             }
             catch (Exception ex)
             {
@@ -57,11 +60,11 @@ namespace VerificaAssembly
 
     public class Parametros : ParamsObject
     {
-        public Parametros(string[] args) : base(args){}
+        public Parametros(string[] args) : base(args) { }
 
         [Switch("Acao")]
         [SwitchHelpText("Tipo de informação que deseja extrair")]
-        public Acao Acao { get; set; }
+        public Acao[] Acao { get; set; }
         [Switch("CaminhoDll", true)]
         [SwitchHelpText("Caminho abosluto da DLL")]
         public string CaminhoDll { get; set; }
